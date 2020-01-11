@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Etch-a-Sketch</title>
+    <meta charset="utf-8">
+    <link href="style.css" rel="stylesheet" type="text/css">
+  </head>
+  <body>
+    <button type="button" name="reset">Reset</button>
+    <script>
+      const body = document.querySelector("body");
+      const containerSideLength = 768;
+
+      function createGridContainer() {
+        let container = document.createElement("div");
+        container.id = "grid-container";
+        container.style.width = `${containerSideLength}px`;
+        container.style.height = `${containerSideLength}px`;
+
+        body.insertBefore(container, document.querySelector("script"));
+      }
+
+      function createGridItems(squaresPerSide) {
+        const container = document.getElementById("grid-container");
+
+        let gridTemplateColumnsText = "";
+        for (let i = 0; i < squaresPerSide; i++) {
+          gridTemplateColumnsText += "auto ";
+        }
+        container.style.gridTemplateColumns = gridTemplateColumnsText;
+
+        for (let r = 1; r <= squaresPerSide; r++) {
+          for (let c = 1; c <= squaresPerSide; c++) {
+            let gridItem = document.createElement("div");
+            gridItem.id = `R${r}C${c}`;
+            gridItem.classList.add("grid-item");
+            gridItem.style.width = container.clientWidth / squaresPerSide;
+            gridItem.style.height = container.clientHeight / squaresPerSide;
+            
+            container.appendChild(gridItem);
+          }
+        }
+
+        const gridItems = document.querySelectorAll(".grid-item");
+        gridItems.forEach(gridItem => gridItem.addEventListener("mouseover", sketchGridItem));
+      }
+      
+      function sketchGridItem() {
+        this.classList.add("sketched");
+      }
+
+      function resetGrid() {
+        while (true) {
+          let newNumberOfSquaresPerSide = prompt("Enter number of squares per side:", 16);
+          if (Number.isInteger(+newNumberOfSquaresPerSide) && +newNumberOfSquaresPerSide > 0) {
+            body.removeChild(document.getElementById("grid-container"));
+            createGridContainer();
+            createGridItems(+newNumberOfSquaresPerSide);
+            return;
+          } else if (newNumberOfSquaresPerSide === null) {
+            return;
+          } else {
+            alert("Invalid number of squares per side. Please provide a positive integer. Larger numbers take longer to draw grid.");
+          }
+        }
+      }
+
+      createGridContainer();
+      createGridItems(16);
+
+      const resetButton = document.querySelector("button");
+      resetButton.style.width = `${containerSideLength}px`;
+      resetButton.addEventListener('click', resetGrid);
+    </script>
+  </body>
+</html>

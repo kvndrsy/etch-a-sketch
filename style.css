@@ -1,0 +1,13 @@
+#grid-container {
+  display: grid;
+}
+
+.sketched {
+  background-color: grey;
+}
+
+button {
+  display: inline-block;
+  text-align: center;
+  margin-bottom: 32px;
+}
