@@ -22,19 +22,13 @@
 
       function createGridItems(squaresPerSide) {
         const container = document.getElementById("grid-container");
-
-        let gridTemplateColumnsText = "";
-        for (let i = 0; i < squaresPerSide; i++) {
-          gridTemplateColumnsText += "auto ";
-        }
-        container.style.gridTemplateColumns = gridTemplateColumnsText;
+        container.style.gridTemplateColumns = `repeat(${squaresPerSide}, auto)`;
 
         for (let r = 1; r <= squaresPerSide; r++) {
           for (let c = 1; c <= squaresPerSide; c++) {
             let gridItem = document.createElement("div");
             gridItem.id = `R${r}C${c}`;
             gridItem.classList.add("grid-item");
-            gridItem.style.width = container.clientWidth / squaresPerSide;
             gridItem.style.height = container.clientHeight / squaresPerSide;
             
             container.appendChild(gridItem);
